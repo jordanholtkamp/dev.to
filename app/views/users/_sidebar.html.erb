@@ -2,57 +2,70 @@
   <div class="sidebar-bg" id="sidebar-bg-left"></div>
   <div class="side-bar">
     <div class="user-sidebar">
+    <%# # cache block looks up user and caches every 10 days %>
       <% cache "user-profile-sidebar-profile-details-#{@user.id}-#{@user.profile_updated_at}", expires_in: 10.days do %>
+      <%# # if a user has a mostly work with section %>
         <% if @user.mostly_work_with.present? %>
           <div class="widget">
             <header>
               <h4>skills/languages</h4>
             </header>
             <div class="widget-body">
+            <%# # display the users skills and languages %>
               <%= sanitized_sidebar @user.mostly_work_with %>
             </div>
           </div>
         <% end %>
+        <%# # if the user has a currently learning section %>
         <% if @user.currently_learning.present? %>
           <div class="widget">
             <header>
               <h4>learning/trying</h4>
             </header>
             <div class="widget-body">
+            <%# # display what the user is currently working with %>
               <%= sanitized_sidebar @user.currently_learning %>
             </div>
           </div>
         <% end %>
+        <%# # if the user has a currently hacking on  session %>
         <% if @user.currently_hacking_on.present? %>
           <div class="widget">
             <header>
               <h4>projects and hacks</h4>
             </header>
             <div class="widget-body">
+            <%# # get the user's currently hacking info %>
               <%= sanitized_sidebar @user.currently_hacking_on %>
             </div>
           </div>
         <% end %>
+        <%# # if user has available for? %>
         <% if @user.available_for.present? %>
           <div class="widget">
             <header>
               <h4>available for</h4>
             </header>
             <div class="widget-body">
+            <%# # display that users available for info %>
               <%= sanitized_sidebar @user.available_for %>
             </div>
           </div>
         <% end %>
       <% end %>
+      <%# # cache look up users data for last commented at, last article at, or last follower they got %>
       <% cache "user-profile-sidebar-stats-#{@user.id}-#{@user.last_article_at}-#{@user.last_comment_at}-#{@user.last_followed_at}", expires_in: 10.days do %>
         <div class="sidebar-data">
           <div>
+          <%# Gives us the number of articles the user has published %>
             <%= pluralize @user.articles.published.size, "Post" %> Published
           </div>
           <div>
+          <%# Gives us number of comments the user has left %>
             <%= pluralize @user.comments.where(deleted: false).size, "Comment" %> Written
           </div>
           <div>
+          <%# gives us the tage they follow %>
             <%= pluralize @user.decorate.cached_followed_tags.size, "Tag" %> Followed
           </div>
         </div>
