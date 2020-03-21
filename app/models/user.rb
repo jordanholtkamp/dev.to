@@ -254,6 +254,7 @@ class User < ApplicationRecord
   end
 
   def cached_following_users_ids
+    # returns user ids for who the user is following (limiting 150)
     cache_key = "user-#{id}-#{last_followed_at}-#{following_users_count}/following_users_ids"
     Rails.cache.fetch(cache_key, expires_in: 12.hours) do
       Follow.follower_user(id).limit(150).pluck(:followable_id)
@@ -300,13 +301,20 @@ class User < ApplicationRecord
   end
 
   def cached_followed_tag_names
+    # setting cache-name var to be this long thing
     cache_name = "user-#{id}-#{following_tags_count}-#{last_followed_at&.rfc3339}/followed_tag_names"
+    # takes in that cache var and caches every 24 hours so as not to get too stale
     Rails.cache.fetch(cache_name, expires_in: 24.hours) do
+      # looking for a tag where
       Tag.where(
+        # looking for a follow instance
         id: Follow.where(
+          # where the follower id equals the user id
           follower_id: id,
           followable_type: "ActsAsTaggableOn::Tag",
+          # and then returns the followable_id, which is the article
         ).pluck(:followable_id),
+        # and then plucks the name from that
       ).pluck(:name)
     end
   end
