@@ -1,6 +1,7 @@
 module Articles
   class AnalyticsUpdater
     def initialize(user, context = "default")
+      # initialize with a user and context with a default of the string 'default'
       @context = context
       @user = user
     end
