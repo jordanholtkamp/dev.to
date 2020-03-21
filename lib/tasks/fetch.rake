@@ -49,8 +49,11 @@ task github_repo_fetch_all: :environment do
   GithubRepo.update_to_latest
 end
 
+
 task send_email_digest: :environment do
+  # if the day is wednesday - saturday
   if Time.current.wday >= 3
+    # send periodic digest email
     EmailDigest.send_periodic_digest_email
   end
 end
