@@ -1,12 +1,18 @@
+<%# # looks at the user id from the follow table that was followed, and then looks how many followers you have gotten in the past 24 hours? %>
 <% num_followers_past_days = Follow.followable_user(@user.id).where("created_at > ?", 24.hours.ago).size %>
 
+<%# # checks if you have more than zero in the past 24 hours %>
 <% if num_followers_past_days.positive? %>
+<%# # tells you how many followers in the past hour %>
   <h3 style="font-weight:600;font-size:0.95em;color:#3ac1b4">You have <%= num_followers_past_days %> new DEV followers in the past day!</h3>
 <% end %>
 
 <h2 style="font-size:32px;">
+<%# # Link to the user that just followed you %>
   <a href="https://dev.to/<%= @follower.username %>"><%= @follower.name %></a> just followed you 🤗</h2>
+  <%# # gives you total followers and pluralizes %>
 <h3 style="font-weight:600">You now have <%= pluralize(@user.followers_count, "total follower") %>. See all of your recent followers
+<%# # links to your follower list %>
   <a href="https://dev.to/dashboard/user_followers">right here</a>.</h3>
 <p>
   When someone follows you on
