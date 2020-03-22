@@ -2,7 +2,9 @@
   <div class="sidebar-bg" id="sidebar-bg-left"></div>
   <div class="side-bar">
     <div class="user-sidebar">
+# Cache look up users id and profile_updated_at every 10 days.
       <% cache "user-profile-sidebar-profile-details-#{@user.id}-#{@user.profile_updated_at}", expires_in: 10.days do %>
+<%# Takes the users mostly worked with skills and displays those when it is present.%>
         <% if @user.mostly_work_with.present? %>
           <div class="widget">
             <header>
@@ -13,6 +15,7 @@
             </div>
           </div>
         <% end %>
+<%# Take the users currently learning and displays those when present.%>
         <% if @user.currently_learning.present? %>
           <div class="widget">
             <header>
@@ -21,8 +24,9 @@
             <div class="widget-body">
               <%= sanitized_sidebar @user.currently_learning %>
             </div>
-          </div>
-        <% end %>
+            </div>
+            <% end %>
+<%# Take the users currently learning and displays those when present.%>
         <% if @user.currently_hacking_on.present? %>
           <div class="widget">
             <header>
@@ -33,6 +37,7 @@
             </div>
           </div>
         <% end %>
+<%# Take the users available for and displays those when present.%>
         <% if @user.available_for.present? %>
           <div class="widget">
             <header>
@@ -44,15 +49,19 @@
           </div>
         <% end %>
       <% end %>
+# Cache look up users id, last_article_at, last_comment_at, last_followed_at every 10 days.
       <% cache "user-profile-sidebar-stats-#{@user.id}-#{@user.last_article_at}-#{@user.last_comment_at}-#{@user.last_followed_at}", expires_in: 10.days do %>
         <div class="sidebar-data">
           <div>
+# If user articles is more than 1 pluralize Post.
             <%= pluralize @user.articles.published.size, "Post" %> Published
           </div>
           <div>
+# If user comments is more than 1 pluralize Comment.
             <%= pluralize @user.comments.where(deleted: false).size, "Comment" %> Written
           </div>
           <div>
+# If user tags is more than 1 pluralize Tag.
             <%= pluralize @user.decorate.cached_followed_tags.size, "Tag" %> Followed
           </div>
         </div>
