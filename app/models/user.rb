@@ -253,6 +253,7 @@ class User < ApplicationRecord
       where(language: preferred_languages_array, published: true)
   end
 
+  # gets the cached users ids of the users followed users
   def cached_following_users_ids
     cache_key = "user-#{id}-#{last_followed_at}-#{following_users_count}/following_users_ids"
     Rails.cache.fetch(cache_key, expires_in: 12.hours) do
@@ -300,12 +301,18 @@ class User < ApplicationRecord
   end
 
   def cached_followed_tag_names
+    # setting a cache_name of the users unique id and their followed tag count
     cache_name = "user-#{id}-#{following_tags_count}-#{last_followed_at&.rfc3339}/followed_tag_names"
+    # go fetch the name from the cache
+    # then refreshing after 24 hours
     Rails.cache.fetch(cache_name, expires_in: 24.hours) do
+      # go look at the tag table where this is true, where the id is = to the following attributes
       Tag.where(
+        # where the id and type match create the instance of the table that is found
         id: Follow.where(
           follower_id: id,
           followable_type: "ActsAsTaggableOn::Tag",
+          # pluck the values that are found
         ).pluck(:followable_id),
       ).pluck(:name)
     end
