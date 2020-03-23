@@ -2,8 +2,10 @@ class DigestMailer < ApplicationMailer
   default from: -> { "DEV Digest <#{SiteConfig.default_site_email}>" }
 
   def digest_email(user, articles)
+    # instance variables set to passed in arguements
     @user = user
     @articles = articles.first(6)
+    # calls generate_unsubscribe_token in ApplicationMailer with user.id and email as params
     @unsubscribe = generate_unsubscribe_token(@user.id, :email_digest_periodic)
     subject = generate_title
     mail(to: @user.email, subject: subject)
@@ -12,6 +14,7 @@ class DigestMailer < ApplicationMailer
   private
 
   def generate_title
+    # first article, article.size - 1, email end phrase (random), random_emoji
     "#{adjusted_title(@articles.first)} + #{@articles.size - 1} #{email_end_phrase} #{random_emoji}"
   end
 
@@ -21,10 +24,12 @@ class DigestMailer < ApplicationMailer
   end
 
   def random_emoji
+    # random 3 emojis
     ["🤓", "🎉", "🙈", "🔥", "💬", "👋", "👏", "🐶", "🦁", "🐙", "🦄", "❤️", "😇"].shuffle.take(3).join
   end
 
   def email_end_phrase
+    # random end phrase
     # "more trending DEV posts" won the previous split test
     # Included more often as per explore-exploit algorithm
     [
