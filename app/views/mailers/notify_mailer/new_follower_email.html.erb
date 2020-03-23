@@ -1,14 +1,21 @@
+# setting variable equal to Follow where the user who was followed was followed within the past 24 hours
 <% num_followers_past_days = Follow.followable_user(@user.id).where("created_at > ?", 24.hours.ago).size %>
 
+#if number of followers is not 0, include "you have X new DEV followers in the past day!"
 <% if num_followers_past_days.positive? %>
   <h3 style="font-weight:600;font-size:0.95em;color:#3ac1b4">You have <%= num_followers_past_days %> new DEV followers in the past day!</h3>
 <% end %>
 
 <h2 style="font-size:32px;">
+  #links to follower.username and says "[actual follower name] just followed you"
   <a href="https://dev.to/<%= @follower.username %>"><%= @follower.name %></a> just followed you 🤗</h2>
+  #email says "you now have 1 total follower" or "you now have X total followers" if more than 1
+  #can click liknk to see all followers
+
 <h3 style="font-weight:600">You now have <%= pluralize(@user.followers_count, "total follower") %>. See all of your recent followers
   <a href="https://dev.to/dashboard/user_followers">right here</a>.</h3>
 <p>
+  
   When someone follows you on
   <a href="https://dev.to">dev.to</a>, your posts will be prioritized in their feed and notifications. The perks of popularity I suppose.
 </p>
