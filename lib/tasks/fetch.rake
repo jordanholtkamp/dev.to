@@ -50,7 +50,9 @@ task github_repo_fetch_all: :environment do
 end
 
 task send_email_digest: :environment do
+  #if Time.current weekday is Wed-Saturday
   if Time.current.wday >= 3
+    #send digest_email
     EmailDigest.send_periodic_digest_email
   end
 end
