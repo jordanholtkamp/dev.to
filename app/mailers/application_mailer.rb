@@ -7,6 +7,8 @@ class ApplicationMailer < ActionMailer::Base
   )
 
   def generate_unsubscribe_token(id, email_type)
+    # message_verifier of unsubscribe generate with
+    # user_id: id, email_type: email_type, expires 31 days from now
     Rails.application.message_verifier(:unsubscribe).generate(
       user_id: id,
       email_type: email_type.to_sym,
