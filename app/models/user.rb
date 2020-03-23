@@ -254,8 +254,11 @@ class User < ApplicationRecord
   end
 
   def cached_following_users_ids
+    # var set to cache key with user information
     cache_key = "user-#{id}-#{last_followed_at}-#{following_users_count}/following_users_ids"
+    # fetch cache_key, expires in 12 hours
     Rails.cache.fetch(cache_key, expires_in: 12.hours) do
+      # Follow.follower_user(id) limit to 150 pluck followable_id
       Follow.follower_user(id).limit(150).pluck(:followable_id)
     end
   end
@@ -300,13 +303,21 @@ class User < ApplicationRecord
   end
 
   def cached_followed_tag_names
+    # setting cache_name to fetch user information from cache
+    # edge-caching does not allow access to helper methods like current_user
     cache_name = "user-#{id}-#{following_tags_count}-#{last_followed_at&.rfc3339}/followed_tag_names"
+    # fetches cached name and expires cache after 24 hours
     Rails.cache.fetch(cache_name, expires_in: 24.hours) do
+      # find the tag where
       Tag.where(
+        # id where the follow record has a follower_id = user.id
         id: Follow.where(
           follower_id: id,
+          # followable_type is equal to ActsAsTaggableOn::tag
           followable_type: "ActsAsTaggableOn::Tag",
+          # pluck the followable_id
         ).pluck(:followable_id),
+        # pluck the follow name
       ).pluck(:name)
     end
   end
