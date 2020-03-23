@@ -15,10 +15,14 @@ class GoogleAnalytics
   end
 
   def get_pageviews
+    # requests is equyal to the article_ids class was initiated with
+    # map over them and find article with id
     requests = @article_ids.map do |id|
       article = Article.find_by(id: id)
+      # method
       make_report_request("ga:pagePath=@#{article.slug}", "ga:pageviews")
     end
+    # var = method(passed in requests var)
     pageviews = fetch_all_results(requests)
     @article_ids.zip(pageviews).to_h
   end
@@ -44,11 +48,17 @@ class GoogleAnalytics
   private
 
   def fetch_all_results(requests)
+    # results is equal to empty array
     results = []
+    # var = 0
     i = 0
+    # while 0 is less than requests.length run the block
     while i < requests.length
+      # var = method return value, # passed in request ids plus next 4
       done_request = fetch_analytics_for(*requests[i..i + 4])
+      # adds 2 result arrays together
       results.concat(done_request)
+      # add 5 to i
       i += 5
     end
     results
