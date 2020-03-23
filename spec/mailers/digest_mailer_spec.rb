@@ -29,5 +29,14 @@ RSpec.describe DigestMailer, type: :mailer do
       expect(email.body).to include(CGI.escape("utm_source=digest_mailer"))
       expect(email.body).to include(CGI.escape("utm_campaign=digest_email"))
     end
+
+    it "includes email attributes" do
+      email = described_class.digest_email(user, [article])
+      expect(email.to).to include("person8@example.com")
+      expect(email.from).to include("yo@dev.to")
+      expect(email.subject).to include("\"test title\"")
+      expect(email.body).to include("Looking for work?")
+      expect(email.body).to include("Browse job openings")
+    end
   end
 end
