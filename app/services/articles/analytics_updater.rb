@@ -1,6 +1,7 @@
 module Articles
   class AnalyticsUpdater
     def initialize(user, context = "default")
+      # IVs set to passed in user and context,
       @context = context
       @user = user
     end
@@ -22,6 +23,8 @@ module Articles
 
     def fetch_and_update_page_views_and_reaction_counts(qualified_articles)
       qualified_articles.each_slice(15).to_a.each do |chunk|
+        # for each qualified_article slice at 15 chrs and then make an array, irrerate over chunk
+        # var = new GoogleAnalytics passing in the chuck's id and user id, get pageview count from google api
         pageviews = GoogleAnalytics.new(chunk.pluck(:id), user.id).get_pageviews
         page_views_obj = pageviews.to_h
         chunk.each do |article|
