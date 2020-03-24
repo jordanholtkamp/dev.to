@@ -17,6 +17,7 @@ class UserPolicy < ApplicationPolicy
     email_connect_messages
     email_digest_periodic
     email_follower_notifications
+    email_daily_dev
     email_membership_newsletter
     email_mention_notifications
     email_newsletter email_public
