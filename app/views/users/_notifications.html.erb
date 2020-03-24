@@ -2,6 +2,10 @@
 <%= form_for(@user) do |f| %>
   <div class="checkbox-field">
     <div class="sub-field">
+      <%= f.check_box :email_daily_dev %>
+      <%= f.label :email_daily_dev, "Send me daily dev emails" %>
+    </div>
+    <div class="sub-field">
       <%= f.check_box :email_newsletter %>
       <%= f.label :email_newsletter, "Send me weekly newsletter emails" %>
     </div>

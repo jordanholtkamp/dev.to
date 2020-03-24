@@ -1,5 +1,6 @@
 class EmailSubscriptionsController < ApplicationController
   PREFERRED_EMAIL_NAME = {
+    email_daily_dev: "Daily DEV emails",
     email_digest_periodic: "DEV digest emails",
     email_comment_notifications: "comment notifications",
     email_follower_notifications: "follower notifications",

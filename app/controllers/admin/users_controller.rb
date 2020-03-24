@@ -64,6 +64,7 @@ module Admin
 
     def other_params
       %i[
+        email_daily_dev
         email_newsletter
         email_comment_notifications
         email_follower_notifications
