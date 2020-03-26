@@ -13,6 +13,7 @@ RSpec.describe DailyDev, type: :labor do
   let(:author) { create(:user) }
   let(:mock_delegator) { instance_double("FakeDelegator") }
   let(:ruby_tag) { create(:tag, name: "ruby") }
+  let(:python_tag) { create(:tag, name: "python") }
   let(:javaScript_tag) { create(:tag, name: "javaScript") }
 
   before do
@@ -23,20 +24,27 @@ RSpec.describe DailyDev, type: :labor do
 
   describe "::send_daily_email" do
     context "when the user is following tags" do
-      before { user.follow(ruby_tag) }
+      before { [user.follow(ruby_tag), user.follow(python_tag)] }
 
       it "send daily email" do
-        article1 = create(:article, user_id: author.id, positive_reactions_count: 20, score: 20, tags: ruby_tag)
-        article2 = create(:article, user_id: author.id, positive_reactions_count: 21, score: 21, tags: javaScript_tag)
+        article1 = create(:article, user_id: author.id, positive_reactions_count: 20, hotness_score: 10, tags: ruby_tag)
+        article2 = create(:article, user_id: author.id, positive_reactions_count: 21, hotness_score: 21, tags: javaScript_tag)
+        article3 = create(:article, user_id: author.id, positive_reactions_count: 21, hotness_score: 30, tags: python_tag)
+
+        article1.tags << python_tag
 
         described_class.send_daily_email
 
         expect(DailyDevMailer).to have_received(:daily_email).with(
-          user, article1
+          user, article3
         )
 
         expect(DailyDevMailer).not_to have_received(:daily_email).with(
           user, article2
+        )
+
+        expect(DailyDevMailer).not_to have_received(:daily_email).with(
+          user, article1
         )
       end
     end
