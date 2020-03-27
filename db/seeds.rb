@@ -32,6 +32,20 @@ User.clear_index!
 
 roles = %i[trusted chatroom_beta_tester workshop_pass]
 
+User.create!(
+  name: "jordan",
+  summary: Faker::Lorem.paragraph_by_chars(number: 199, supplemental: false),
+  profile_image: File.open(Rails.root.join("app/assets/images/#{rand(1..40)}.png")),
+  website_url: Faker::Internet.url,
+  twitter_username: Faker::Internet.username(specifier: "jordan"),
+  email_comment_notifications: false,
+  email_follower_notifications: false,
+  email: "jordanholtkamp@gmail.com", # Emails limited to 50 characters
+  confirmed_at: Time.current,
+  email_daily_dev: true,
+  password: "password",
+)
+
 num_users.times do |i|
   name = Faker::Name.unique.name
 
