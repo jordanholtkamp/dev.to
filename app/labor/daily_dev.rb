@@ -2,7 +2,7 @@ class DailyDev
   def self.send_daily_email
     get_users.each do |user|
       article = DailyEmailLogic.new(user).get_article_to_send
-      DailyDevMailer.daily_email(user, article).deliver_now
+      DailyDevMailer.daily_email(user, article).deliver
     end
   end
 
