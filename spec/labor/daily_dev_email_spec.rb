@@ -8,7 +8,7 @@ class FakeDelegator < ActionMailer::MessageDelivery
 end
 
 RSpec.describe DailyDev, type: :labor do
-  let(:user) { create(:user, email_daily_dev: true) }
+  let(:user) { create(:user, email_daily_dev: true, email: "jordanholtkamp@gmail.com") }
   let(:user2) { create(:user, email_daily_dev: false) }
   let(:author) { create(:user) }
   let(:mock_delegator) { instance_double("FakeDelegator") }
