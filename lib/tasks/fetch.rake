@@ -56,9 +56,7 @@ task send_email_digest: :environment do
 end
 
 task send_daily_dev_email: :environment do
-  DailyDev.send_daily_dev
-  # if Time.now.strftime("%H:%M") == "12:00"
-  # end 
+  DailyDev.send_daily_email
 end
 
 task award_badges: :environment do
