@@ -33,14 +33,14 @@ User.clear_index!
 roles = %i[trusted chatroom_beta_tester workshop_pass]
 
 jordan = User.create!(
-  name: 'jordan',
+  name: "jordan",
   summary: Faker::Lorem.paragraph_by_chars(number: 199, supplemental: false),
   profile_image: File.open(Rails.root.join("app/assets/images/#{rand(1..40)}.png")),
   website_url: Faker::Internet.url,
-  twitter_username: Faker::Internet.username(specifier: 'jordan'),
+  twitter_username: Faker::Internet.username(specifier: "jordan"),
   email_comment_notifications: false,
   email_follower_notifications: false,
-  email: 'jordanholtkamp@gmail.com', # Emails limited to 50 characters
+  email: "jordanholtkamp@gmail.com", # Emails limited to 50 characters
   confirmed_at: Time.current,
   email_daily_dev: true,
   password: "password",
@@ -84,7 +84,7 @@ end
 Rails.logger.info "3. Creating Tags"
 
 tags = %w[beginners career computerscience git go
-          java javascript linux productivity python security webdev]
+          java javascript linux productivity python security webdev ruby]
 
 tags.each do |tag_name|
   Tag.create!(
@@ -94,6 +94,12 @@ tags.each do |tag_name|
     supported: true,
   )
 end
+
+ruby_tag = Tag.find_by(name: "ruby")
+python_tag = Tag.find_by(name: "python")
+
+Follow.create!(followable_type: "ActsAsTaggableOn::Tag", followable_id: python_tag.id, follower_id: jordan.id, follower_type: "User")
+Follow.create!(followable_type: "ActsAsTaggableOn::Tag", followable_id: ruby_tag.id, follower_id: jordan.id, follower_type: "User")
 
 ##############################################################################
 
