@@ -1,12 +1,15 @@
 <h1 style="text-align: center;">
   Your Daily DEV
 </h1>
+
 <h4 style="text-align: center;">🔥 Hot post you might find valuable based on your interests 💚</h4>
 
 <div>
-  <a href="https://dev.to<%= @article.path %>" style="font-weight: bold;color:#0045ff;font-size:calc(0.93em + 0.2vw);"><%= @article.title.strip %></a>
-  <img></img>
-  <p><%= truncate(@article.description, length: 300) %></p>
+  <h4>📖Article Reading Time: <%= pluralize @article.reading_time, "minute" %></h4>
+  <h4>👀Article Tags: <%= @article.cached_tag_list %></h4>
+  <h2 style="text-align: center;"><a href="https://dev.to<%= @article.path %>" style="font-weight: bold;color:#0045ff;font-size:calc(0.93em + 0.2vw);"><%= @article.title.strip %></a></h2>
+  <img src="<%= @article.main_image %>" style="height: 50%; width: 100%;" alt="Article Image">
+  <p><%= truncate(@article.description, length: 255) %></p>
 </div>
 
 <div>
