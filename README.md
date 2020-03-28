@@ -159,3 +159,40 @@ doc or email yo@dev.to.
   <br>
   <strong>Happy Coding</strong> ❤️
 </p>
+
+## Daily Dev Email Feature
+
+## Learning Goals
+- Learn and apply strategies for understanding how to analyze a large, existing code base
+- Apply strategies for reading and evaluating documentation
+- Explore and implement new concepts, patterns, or libraries that have not been explicitly taught while at Turing
+- Practice an advanced, professional git workflow
+
+## Overview 
+ - Added functionality to allow users to subscribe to daily DEV emails. This is found in the users notification settings. The email consists of a hot article relating to the users followed tags. If the user has no followed tags, the user will receive that days hottest article. 
+ 
+### Sample Email
+<img width="481" alt="Screen Shot 2020-03-28 at 1 04 42 PM" src="https://user-images.githubusercontent.com/19761687/77831429-c359e100-70f4-11ea-8480-f4cac7f3dda8.png">
+ 
+## Database Changes
+ - Added email_daily_dev boolean column to the Users table. Default value of this column is false. If email_daily_dev is true the user has elected into daily emails.
+ 
+ ## Wins
+ - Overflowing team positivity/moral.
+ - Completed our MVP.
+ - Problem solved effectively.
+ - FE was able to understand BE workflow.
+ 
+ ## Challenges 
+ - Initial setup involved multiple new tools. 
+ - Diving into a new code base. 
+ - Finding and understanding what files were needed.
+ - Navigating the rebase process.
+ 
+ ## Contributors 
+ - Lain McGrath 
+ - Caleb Haizlett 
+ - Jordan Holtkamp 
+ 
+ 
+ 
